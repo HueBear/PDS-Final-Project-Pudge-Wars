@@ -19,31 +19,54 @@ namespace PudgeWarsXNA
     {
         //Pudge Objects
         Rectangle bounds;
+        Texture3D texture;
+
+        int playerNumber;
+
         int str;
-        int agi;
-        int intelligence;
-        int health;
+        int currentHealth;
+        int maxHealth;
         double speed;
         double experience;
+        int respawnTime;
+        int maxRespawnTime;
+
+        Boolean hooked;
+        Boolean healing;
+        Boolean invulnerable;
         
         int level;
-        int gold;
 
-        //Do we need to make a player object or only a character???
+        int gold;
+        int aP;
+
+        Hook pudgeHook;
 
         //TODO: Add an item object so we can add an inventory(wouldn't that be a list?
 
         //Hook level values for the hook object
-        int hookDamage;
-        int hookRadius;
-        int hookRange;
-        int hookSpeed;
 
-        public Pudge(Rectangle PudgeBounds)
+        public Pudge(int inPlayerNumber)
         {
-            // TODO: Construct any child components here
-        }
+            playerNumber = inPlayerNumber;
 
-       
+            str = 10;
+            currentHealth = 1500;
+            maxHealth = 1500;
+            //speed;
+            experience = 0;
+            respawnTime = 0;
+            maxRespawnTime = 5;
+
+            hooked = false;
+            healing = false;
+            invulnerable = false;
+
+            level = 1;
+            gold = 25;
+            aP = 0;
+
+            Hook pudgeHook = new Hook();
+        }
     }
 }
