@@ -19,6 +19,11 @@ namespace PudgeWarsXNA
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        MouseState oldState;
+        Pudge pudge;
+
+        Pudge[] Pudges = new Pudge[12];
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -34,6 +39,13 @@ namespace PudgeWarsXNA
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            IsMouseVisible = true;
+            for(int i = 0; i < 11; i++)
+            {
+                pudge = new Pudge(i);
+                Pudges[i] = pudge;
+            }
+           
 
             base.Initialize();
         }
@@ -67,8 +79,15 @@ namespace PudgeWarsXNA
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
+
+
+            if(oldState.RightButton == ButtonState.Released && Mouse.GetState().RightButton == ButtonState.Pressed)
+            {
+                pudge.Update(gameTime, Mouse.GetState().X, Mouse.GetState().Y, pudge.getSpeed());
+            }
+            oldState = Mouse.GetState();
 
             // TODO: Add your update logic here
 

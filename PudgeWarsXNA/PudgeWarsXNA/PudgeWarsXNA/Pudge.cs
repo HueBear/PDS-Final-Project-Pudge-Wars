@@ -27,18 +27,19 @@ namespace PudgeWarsXNA
         int currentHealth;
         int maxHealth;
         double speed;
-        double experience;
+        double exp;
         int respawnTime;
         int maxRespawnTime;
 
         Boolean hooked;
         Boolean healing;
-        Boolean invulnerable;
+        Boolean invuln;
+        Boolean stunned;
         
         int level;
 
         int gold;
-        int aP;
+        int AP;
 
         Hook pudgeHook;
 
@@ -49,24 +50,166 @@ namespace PudgeWarsXNA
         public Pudge(int inPlayerNumber)
         {
             playerNumber = inPlayerNumber;
-
             str = 10;
             currentHealth = 1500;
             maxHealth = 1500;
-            //speed;
-            experience = 0;
+            speed = 350;
+            exp = 0;
             respawnTime = 0;
             maxRespawnTime = 5;
 
             hooked = false;
             healing = false;
-            invulnerable = false;
+            invuln = false;
+            stunned = false;
 
             level = 1;
             gold = 25;
-            aP = 0;
+            AP = 0;
 
             Hook pudgeHook = new Hook();
+        }
+
+        public void Update(GameTime gameTime, int inX, int inY, double inSpeed)
+        {
+            //move X values
+            if(Math.Abs(bounds.X - inX) < inSpeed)
+            {
+                bounds.X = inX;
+            }
+            else if(bounds.X < inX)
+            {
+                bounds.X += (int)inSpeed;
+            }
+            else if(bounds.X > inX)
+            {
+                bounds.X -= (int)inSpeed;
+            }
+
+            //move Y values
+            if(Math.Abs(bounds.Y - inY) < inSpeed)
+            {
+                bounds.Y = inY;
+            }
+            else if(bounds.Y < inY)
+            {
+                bounds.Y += (int)inSpeed;
+            }
+            else if(bounds.Y > inY)
+            {
+                bounds.Y -= (int)inSpeed;
+            }
+        }
+
+        public void Draw()
+        {
+
+        }
+
+        public int getPlayerNumber()
+        {
+            return playerNumber;
+        }
+        public int getCurrentHealth()
+        {
+            return currentHealth;
+        }
+        public int getMaxHealth()
+        {
+            return maxHealth;
+        }
+        public double getSpeed()
+        {
+            return speed;
+        }
+        public int getStr()
+        {
+            return str;
+        }
+        public double getExp()
+        {
+            return exp;
+        }
+        public int getRespawnTime()
+        {
+            return respawnTime;
+        }
+        public int getLevel()
+        {
+            return level;
+        }
+        public int getGold()
+        {
+            return gold;
+        }
+        public int getAP()
+        {
+            return AP;
+        }
+        public Boolean getHooked()
+        {
+            return hooked;
+        }
+        public Boolean getHealing()
+        {
+            return healing;
+        }
+        public Boolean getInvuln()
+        {
+            return invuln;
+        }
+        public Boolean getStunned()
+        {
+            return stunned;
+        }
+
+        public void setHealth(int inDamage)
+        {
+            currentHealth = currentHealth - inDamage;
+        }
+        public void setMaxHealth()
+        {
+            maxHealth = 1000 + (50 * getStr());
+        }
+        public void setSpeed(int inSpeed)
+        {
+            speed = speed + inSpeed;
+        }
+        public void setExp(double inExp)
+        {
+            exp = exp + inExp;
+        }
+        public void setRespawnTime(int inRespawnTime)
+        {
+            respawnTime = inRespawnTime;
+        }
+        public void setLevel(int inLevel)
+        {
+            level = inLevel;
+        }
+        public void setGold(int inGold)
+        {
+            gold = inGold;
+        }
+        public void setAP(int inAP)
+        {
+            AP = inAP;
+        }
+        public void setHooked(Boolean inHooked)
+        {
+            hooked = inHooked;
+        }
+        public void setHealing(Boolean inHealing)
+        {
+            healing = inHealing;
+        }
+        public void setInvuln(Boolean inInvuln)
+        {
+            invuln = inInvuln;
+        }
+        public void setStunned(Boolean inStunned)
+        {
+            stunned = inStunned;
         }
     }
 }

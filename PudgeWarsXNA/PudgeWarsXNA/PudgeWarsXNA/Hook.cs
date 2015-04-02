@@ -43,10 +43,10 @@ namespace PudgeWarsXNA
             hookRangeLevel = 0;
             hookSpeedLevel = 0;
 
-            hookDamage = 250 + (35 * hookDamageLevel);
-            hookRadius = 100 + (15 * hookRadiusLevel);
-            hookRange = 1500 + (175 * hookRangeLevel);
-            hookSpeed = 800 + (70 * hookSpeedLevel);
+            hookDamage = 250;
+            hookRadius = 100;
+            hookRange = 1500;
+            hookSpeed = 800;
             CD = 0;
             maxCD = 3;
 
@@ -55,7 +55,66 @@ namespace PudgeWarsXNA
             
             // TODO: Construct any child components here
         }
+        public int getDamage()
+        {
+            return hookDamage;
+        }
+        public int getRadius()
+        {
+            return hookRadius;
+        }
+        public int getRange()
+        {
+            return hookRange;
+        }
+        public int getSpeed()
+        {
+            return hookSpeed;
+        }
+        public int getCD()
+        {
+            return CD;
+        }
+        public int getMaxCD()
+        {
+            return maxCD;
+        }
+        public Boolean getHooking()
+        {
+            return hooking;
+        }
+        public Boolean getPulling()
+        {
+            return pulling;
+        }
 
-
+        public void setDamage(int inLevel)
+        {
+            hookDamage = 250 + (35 * inLevel);
+        }
+        public void setRadius(int inLevel)
+        {
+            hookRadius = 100 + (15 * inLevel);
+        }
+        public void setRange(int inLevel)
+        {
+            hookRange = 1500 + (175 * inLevel);
+        }
+        public void setSpeed(int inLevel)
+        {
+            hookSpeed = 800 + (70 * inLevel);
+        }
+        public void setCD(int inCD)
+        {
+            CD = inCD;
+        }
+        public void setHooking(Boolean inBool)
+        {
+            hooking = inBool;
+        }
+        public void setPulling(Boolean inBool)
+        {
+            pulling = inBool;
+        }
     }
 }
