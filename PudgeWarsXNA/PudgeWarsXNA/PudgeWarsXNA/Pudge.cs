@@ -35,6 +35,7 @@ namespace PudgeWarsXNA
         Boolean healing;
         Boolean invuln;
         Boolean stunned;
+        Boolean seek;
         
         int level;
 
@@ -69,8 +70,13 @@ namespace PudgeWarsXNA
 
             Hook pudgeHook = new Hook();
         }
+        
+        public void UpdatePudge()
+        {
 
-        public void Update(GameTime gameTime, int inX, int inY, double inSpeed)
+        }
+
+        public void makeMove(GameTime gameTime, int inX, int inY, double inSpeed)
         {
             //move X values
             if(Math.Abs(bounds.X - inX) < inSpeed)
@@ -101,9 +107,9 @@ namespace PudgeWarsXNA
             }
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
-
+            
         }
 
         public int getPlayerNumber()

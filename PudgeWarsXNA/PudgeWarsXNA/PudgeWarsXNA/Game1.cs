@@ -18,6 +18,16 @@ namespace PudgeWarsXNA
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Model pudgeModel;
+
+        //this matrix creates the model at the origin and allows for movement, this allows the image to move later
+        Matrix world = Matrix.CreateTranslation(new Vector3(-500, 300, 0));
+
+        //sets the camera on creation
+        Matrix view = Matrix.CreateLookAt(new Vector3 (-500, 1368, 923), new Vector3(0, 0, 0), Vector3.Up);
+        Matrix projection = Matrix.CreateOrthographic(2000, 2000, 0.1f, 5000);
+
+
 
         MouseState oldState;
         Pudge pudge;
@@ -60,6 +70,8 @@ namespace PudgeWarsXNA
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            pudgeModel = Content.Load<Model>("Models\\BeachBall");
+
         }
 
         /// <summary>
@@ -82,10 +94,10 @@ namespace PudgeWarsXNA
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
-
+            //pudge movement
             if(oldState.RightButton == ButtonState.Released && Mouse.GetState().RightButton == ButtonState.Pressed)
             {
-                pudge.Update(gameTime, Mouse.GetState().X, Mouse.GetState().Y, pudge.getSpeed());
+                pudge.makeMove(gameTime, Mouse.GetState().X, Mouse.GetState().Y, pudge.getSpeed());
             }
             oldState = Mouse.GetState();
 
@@ -103,8 +115,27 @@ namespace PudgeWarsXNA
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            pudge.Draw(spriteBatch);
+            spriteBatch.End();
+
+            DrawModel(pudgeModel, world, view, projection);
 
             base.Draw(gameTime);
+        }
+
+        public void DrawModel(Model model, Matrix world, Matrix view, Matrix projection)
+        {
+            foreach(ModelMesh mesh in model.Meshes)
+            {
+                foreach(BasicEffect effect in mesh.Effects)
+                {
+                    effect.World = world;
+                    effect.View = view;
+                    effect.Projection = projection;
+                }
+                mesh.Draw();
+            }
         }
     }
 }
