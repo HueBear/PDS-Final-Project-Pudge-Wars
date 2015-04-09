@@ -17,15 +17,16 @@ namespace PudgeWarsXNA
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        GraphicsDevice device;
         SpriteBatch spriteBatch;
         Model pudgeModel;
 
         //this matrix creates the model at the origin and allows for movement, this allows the image to move later
-        Matrix world = Matrix.CreateTranslation(new Vector3(-500, 300, 0));
-
+        private Matrix world; 
         //sets the camera on creation
-        Matrix view = Matrix.CreateLookAt(new Vector3 (-500, 1368, 923), new Vector3(0, 0, 0), Vector3.Up);
-        Matrix projection = Matrix.CreateOrthographic(2000, 2000, 0.1f, 5000);
+        Matrix view;
+        //projection onto the screen
+        Matrix projection; 
 
 
 
@@ -48,8 +49,17 @@ namespace PudgeWarsXNA
         /// </summary>
         protected override void Initialize()
         {
+            graphics.IsFullScreen = false;
+            
+            world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
+            //(0, 1368, 923)
+            view = Matrix.CreateLookAt(new Vector3(0, 10, 10), new Vector3(0, 0, 0), Vector3.Up);
+            projection = Matrix.CreateOrthographic(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0, 100f);
+            
+            graphics.ApplyChanges();
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
+            Window.Title = "Darude Astley - SandRoll";
             for(int i = 0; i < 11; i++)
             {
                 pudge = new Pudge(i);
@@ -68,6 +78,7 @@ namespace PudgeWarsXNA
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            device = graphics.GraphicsDevice;
 
             // TODO: use this.Content to load your game content here
             pudgeModel = Content.Load<Model>("Models\\BeachBall");
@@ -112,7 +123,7 @@ namespace PudgeWarsXNA
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            device.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
