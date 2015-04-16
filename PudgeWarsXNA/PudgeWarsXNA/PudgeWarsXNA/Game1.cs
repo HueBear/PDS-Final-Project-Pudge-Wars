@@ -22,17 +22,14 @@ namespace PudgeWarsXNA
         Model pudgeModel;
 
         //this matrix creates the model at the origin and allows for movement, this allows the image to move later
-        private Matrix world; 
+        Matrix world; 
         //sets the camera on creation
         Matrix view;
         //projection onto the screen
         Matrix projection; 
 
-
-
         MouseState oldState;
-        Pudge pudge;
-
+        Pudge pudge, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12;
         Pudge[] Pudges = new Pudge[12];
 
         public Game1()
@@ -50,13 +47,12 @@ namespace PudgeWarsXNA
         protected override void Initialize()
         {
             graphics.IsFullScreen = false;
-            
-            world = Matrix.CreateTranslation(new Vector3(0, 0, 0));
-            //(0, 1368, 923)
-            view = Matrix.CreateLookAt(new Vector3(0, 10, 10), new Vector3(0, 0, 0), Vector3.Up);
+
+            world = Matrix.Identity;
+            view = Matrix.CreateLookAt(new Vector3(0, 0, 100), new Vector3(0, 0, 0), Vector3.Up);
             projection = Matrix.CreateOrthographic(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, 0, 100f);
-            
             graphics.ApplyChanges();
+            
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
             Window.Title = "Darude Astley - SandRoll";
@@ -64,9 +60,10 @@ namespace PudgeWarsXNA
             {
                 pudge = new Pudge(i);
                 Pudges[i] = pudge;
+                System.Diagnostics.Debug.WriteLine(pudge);
             }
-           
-
+            p2 = new Pudge(2);
+            System.Diagnostics.Debug.WriteLine("initialization complete");
             base.Initialize();
         }
 
@@ -105,12 +102,8 @@ namespace PudgeWarsXNA
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            //pudge movement
-            if(oldState.RightButton == ButtonState.Released && Mouse.GetState().RightButton == ButtonState.Pressed)
-            {
-                pudge.makeMove(gameTime, Mouse.GetState().X, Mouse.GetState().Y, pudge.getSpeed());
-            }
-            oldState = Mouse.GetState();
+            pudge.Update(gameTime);
+            p2.Update(gameTime);
 
             // TODO: Add your update logic here
 
@@ -125,12 +118,13 @@ namespace PudgeWarsXNA
         {
             device.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-            spriteBatch.Begin();
-            pudge.Draw(spriteBatch);
-            spriteBatch.End();
-
-            DrawModel(pudgeModel, world, view, projection);
+            // TODO: Add your drawing code here   
+            //DrawModel(pudgeModel, world, view, projection);
+            foreach(Pudge p in Pudges)
+            {
+                pudge.Draw(pudgeModel, world, view, projection);
+                p2.Draw(pudgeModel, world * Matrix.CreateTranslation(100, 100, 0), view, projection);
+            }
 
             base.Draw(gameTime);
         }

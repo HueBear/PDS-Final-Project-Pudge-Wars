@@ -20,7 +20,13 @@ namespace PudgeWarsXNA
         //Pudge Objects
         Rectangle bounds;
         Texture3D texture;
+        MouseState oldState;
+        Model model;
+        GraphicsDeviceManager graphics;
+        Vector3 modelPosition = Vector3.Zero;
+        float scale = 15f;
 
+        private float angle = 0f;
         int playerNumber;
 
         int str;
@@ -71,9 +77,18 @@ namespace PudgeWarsXNA
             Hook pudgeHook = new Hook();
         }
         
-        public void UpdatePudge()
+        public void Update(GameTime gameTime)
         {
+            if (oldState.RightButton == ButtonState.Released && Mouse.GetState().RightButton == ButtonState.Pressed)
+            {
+                makeMove(gameTime, Mouse.GetState().X, Mouse.GetState().Y, getSpeed());
+            }
+            oldState = Mouse.GetState();
 
+            System.Diagnostics.Debug.WriteLine("Mouse " + Mouse.GetState().X + " " + Mouse.GetState().Y);
+            System.Diagnostics.Debug.WriteLine(bounds.X + " " + bounds.Y);
+
+            angle += 0.05f;
         }
 
         public void makeMove(GameTime gameTime, int inX, int inY, double inSpeed)
@@ -107,9 +122,21 @@ namespace PudgeWarsXNA
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(Model model, Matrix inWorld, Matrix inView, Matrix inProjection)
         {
-            
+            Matrix[] transforms = new Matrix[model.Bones.Count];
+
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.World = Matrix.CreateScale(scale) * Matrix.CreateRotationY(angle) * Matrix.CreateTranslation(50, 50, 0) * inWorld;
+                    effect.View = inView;
+                    effect.Projection = inProjection;
+                    effect.EnableDefaultLighting();
+                }    
+                mesh.Draw();
+            }
         }
 
         public int getPlayerNumber()
